@@ -13,12 +13,12 @@ def test_setup():
     service = Service()
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(service=service, options=options)
-    driver.get("https://www.automationexercise.com/login"
-               "")
-    time.sleep(20)
+    driver.get("https://www.automationexercise.com/login")
+    time.sleep(5)
     yield
     driver.quit()
 
+#Login User with correct email and password. Log out
 @pytest.mark.usefixtures('test_setup')
 def test_method():
     driver.find_element(By.XPATH, elements.INPUT_EMAIL_ADDRESS).send_keys(keys.FIRST_USER_EMAIL)
@@ -26,21 +26,13 @@ def test_method():
     driver.find_element(By.XPATH, elements.INPUT_PASSWORD).send_keys(keys.FIRST_USER_PASSWORD)
     time.sleep(2)
     driver.find_element(By.XPATH, elements.LOGIN_BUTTON).click()
-    user=(driver.find_element(By.XPATH,'//*[@id="header"]/div/div/div/div[2]/div/ul/li[10]/a/b').text)
+    user=(driver.find_element(By.XPATH,elements.LOGGED_USER).text)
     assert user == "Test_automation_user1"
-
-
-#def test_method(test_setup):
-   # assert user == "Test_automation_user1"
-    #assert logged_user == 'Logged in as Test_automation_user1'
-
-#def execute_test(test_setup):
-    #login(test_setup)
-
-#execute_test(test_setup)
-
-# test_setup()
+    driver.find_element(By.XPATH,'//*[@id="header"]/div/div/div/div[2]/div/ul/li[4]/a').click()
+    login_page_indicatior=(driver.find_element(By.XPATH, '//*[@id="form"]/div/div/div[1]/div/h2').text)
+    print(login_page_indicatior)
+    assert login_page_indicatior == 'Login to your account'
+    
 
 
 
-#Test_automation_user1@outlook.com
